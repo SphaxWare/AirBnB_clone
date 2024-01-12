@@ -2,19 +2,22 @@
 """BaseModel for AirBnb Clone"""
 import uuid
 from datetime import datetime as time
+from models import storage
 
 
 class BaseModel:
     """BaseModel Class"""
     def __init__(self, *args, **kwargs):
         """initiate the class"""
+        self.id = str(uuid.uuid4())
+        self.created_at = time.now()
+        self.updated_at = self.created_at
         if kwargs:
             for k, v in kwargs.items():
                 if k in ['created_at', 'updated_at']:
                     v = time.fromisoformat(v)
-        self.id = str(uuid.uuid4())
-        self.created_at = time.now()
-        self.updated_at = self.created_at
+        else:
+            storage.new(self)
 
     def __str__(self):
         """string representation of BaseModel"""
@@ -29,6 +32,7 @@ class BaseModel:
         updated_at with the current datetime
         """
         self.updated_at = time.now()
+        storage.save()
 
     def to_dict(self):
         """

@@ -12,7 +12,7 @@ class FileStorage:
     def __init__(self):
         """Constructor for FileStorage"""
         self.__file_path = "file.json"
-        self.__objects = []
+        self.__objects = {}
 
     def all(self):
         """returns the dictionary __objects"""
@@ -20,15 +20,24 @@ class FileStorage:
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
-        self.__objects[obj.__class__.__name__.id] = obj
+        key = "{}.{}".format(obj.__class__.__name__, obj.id)
+        self.__objects[key] = obj
 
     def save(self):
         """serializes __objects to the JSON file"""
+        serialized_objs = {}
+        for k, v in self.__objects.items():
+            serialized_objs[k] = v.to_dict()
         with open(self.__file_path, "w") as f:
-            json.dump(self.__objects, f)
+            json.dump(serialized_objs, f)
 
     def reload(self):
         """deserializes the JSON file to __objects"""
         if os.path.exists(self.__file_path):
             with open(self.__file_path, 'r') as f:
-                self.__objects = json.load(f)
+                data = json.load(f)
+                for key, serialized_data in data.items():
+                    cls_name, cls_id = key.split('.')
+                    cls = globals()[cls_name]
+                    instance = cls(**serialized_data)
+                    self.__objects[key] = instance
