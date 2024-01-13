@@ -34,8 +34,7 @@ class FileStorage:
         if os.path.exists(self.__file_path):
             with open(self.__file_path, 'r') as f:
                 data = json.load(f)
-                for key, serialized_data in data.items():
-                    cls_name, cls_id = key.split('.')
-                    cls = globals()[cls_name]
-                    instance = cls(**serialized_data)
-                    self.__objects[key] = instance
+                for obj in data.values():
+                    cls_name = obj["__class__"]
+                    del obj[cls_name]
+                    self.new(eval(cls_name)(**obj))

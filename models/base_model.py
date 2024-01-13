@@ -5,9 +5,9 @@ class for representing and managing
 common attributes and methods shared
 among different entities in the AirBnb Clone.
 """
-import uuid
-from datetime import datetime as time
 import models
+from uuid import uuid4
+from datetime import datetime as time
 
 
 class BaseModel:
@@ -21,25 +21,25 @@ class BaseModel:
         """
         initiate the class
         """
+        self.id = str(uuid4())
+        self.created_at = time.now()
+        self.updated_at = time.now()
         if kwargs:
             for k, v in kwargs.items():
                 if k in ['created_at', 'updated_at']:
                     v = time.fromisoformat(v)
         else:
-            self.id = str(uuid.uuid4())
-            self.created_at = time.now()
-            self.updated_at = self.created_at
             models.storage.new(self)
 
     def __str__(self):
         """string representation of BaseModel"""
         return "[{}] ({}) {}".format(
-                self.__class__.__name__,
-                self.id,
-                self.__dict__)
+            self.__class__.__name__,
+            self.id,
+            self.__dict__)
 
-        def save(self):
-            """
+    def save(self):
+        """
         updates the public instance attribute
         updated_at with the current datetime
         """
