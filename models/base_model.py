@@ -27,15 +27,19 @@ class BaseModel:
             for k, v in kwargs.items():
                 if k in ['created_at', 'updated_at']:
                     v = time.fromisoformat(v)
+                setattr(self, k, v)
         else:
+            self.id = str(uuid4())
+            self.created_at = time.now()
+            self.updated_at = time.now()
             models.storage.new(self)
 
     def __str__(self):
         """string representation of BaseModel"""
         return "[{}] ({}) {}".format(
-            self.__class__.__name__,
-            self.id,
-            self.__dict__)
+                self.__class__.__name__,
+                self.id,
+                self.__dict__)
 
     def save(self):
         """
