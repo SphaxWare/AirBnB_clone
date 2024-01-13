@@ -9,10 +9,8 @@ class FileStorage:
     Class that serializes instances to a JSON file and
     deserializes JSON file to instances
     """
-    def __init__(self):
-        """Constructor for FileStorage"""
-        self.__file_path = "file.json"
-        self.__objects = {}
+    __file_path = "file.json"
+    __objects = {}
 
     def all(self):
         """returns the dictionary __objects"""
