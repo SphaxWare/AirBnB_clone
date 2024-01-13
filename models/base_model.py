@@ -16,7 +16,6 @@ class BaseModel:
     attributes/methods for other classes
     """
 
-
     def __init__(self, *args, **kwargs):
         """
         initiate the class
