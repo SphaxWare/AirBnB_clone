@@ -1,22 +1,34 @@
 #!/usr/bin/python3
-"""BaseModel for AirBnb Clone"""
+"""
+BaseModel that provides a foundational
+class for representing and managing
+common attributes and methods shared
+among different entities in the AirBnb Clone.
+"""
 import uuid
 from datetime import datetime as time
 import models
 
 
 class BaseModel:
-    """BaseModel Class"""
+    """
+    BaseModel Class that defines all common
+    attributes/methods for other classes
+    """
+
+
     def __init__(self, *args, **kwargs):
-        """initiate the class"""
-        self.id = str(uuid.uuid4())
-        self.created_at = time.now()
-        self.updated_at = self.created_at
+        """
+        initiate the class
+        """
         if kwargs:
             for k, v in kwargs.items():
                 if k in ['created_at', 'updated_at']:
                     v = time.fromisoformat(v)
         else:
+            self.id = str(uuid.uuid4())
+            self.created_at = time.now()
+            self.updated_at = self.created_at
             models.storage.new(self)
 
     def __str__(self):
@@ -26,8 +38,8 @@ class BaseModel:
                 self.id,
                 self.__dict__)
 
-    def save(self):
-        """
+        def save(self):
+            """
         updates the public instance attribute
         updated_at with the current datetime
         """
