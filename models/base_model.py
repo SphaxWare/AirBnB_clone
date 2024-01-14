@@ -20,9 +20,6 @@ class BaseModel:
         """
         initiate the class
         """
-        self.id = str(uuid4())
-        self.created_at = time.now()
-        self.updated_at = time.now()
         if kwargs:
             for k, v in kwargs.items():
                 if k in ['created_at', 'updated_at']:
@@ -57,5 +54,5 @@ class BaseModel:
         obj = self.__dict__.copy()
         obj['created_at'] = self.created_at.isoformat()
         obj['updated_at'] = self.updated_at.isoformat()
-        obj['__class__'] = self.__class__
+        obj['__class__'] = self.__class__.__name__
         return obj
