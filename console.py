@@ -183,27 +183,24 @@ class HBNBCommand(cmd.Cmd):
             self.do_count(cls_name)
         if ".show" in arg:
             cls_name = arg.split(".")[0]
-            #get the class id
             start = arg.find("(")
             end = arg.find(")")
-            cls_id = arg[start + 1 : end]
+            cls_id = arg[start + 1: end]
             cls_id = cls_id.strip('""')
             self.do_show(cls_name + " " + cls_id)
         if ".destroy" in arg:
             cls_name = arg.split(".")[0]
-            #get the class id
             start = arg.find("(")
             end = arg.find(")")
-            cls_id = arg[start + 1 : end]
+            cls_id = arg[start + 1: end]
             cls_id = cls_id.strip('""')
             self.do_destroy(cls_name + " " + cls_id)
         if ".update" in arg:
             cls_name = arg.split(".")[0]
-            #get the class id
             start = arg.find("(")
             end = arg.find(")")
-            arg = arg[start + 1 : end]
-            cls_id = " "+ arg.split(",")[0].strip('""')
+            arg = arg[start + 1: end]
+            cls_id = " " + arg.split(",")[0].strip('""')
             att = " " + arg.split(", ")[1].strip('""')
             val = " " + arg.split(", ")[2].strip('""')
             self.do_update(cls_name + cls_id + att + val)
