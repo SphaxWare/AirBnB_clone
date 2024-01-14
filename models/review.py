@@ -9,4 +9,4 @@ class Review(BaseModel):
     """Review class that inherits from BaseModel."""
     place_id : str = ""
     user_id : str = ""
-    test = ""
+    text: str = ""
