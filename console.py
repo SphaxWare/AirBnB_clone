@@ -8,7 +8,6 @@ from models.base_model import BaseModel
 from models.user import User
 
 
-
 class HBNBCommand(cmd.Cmd):
     """Command class"""
     prompt = "(hbnb) "
@@ -141,7 +140,7 @@ class HBNBCommand(cmd.Cmd):
             attribute_name = args[2]
             attribute_value = args[3].strip('"')
             if attribute_name not in ["id", "created_at", "updated_at"]:
-                instance =  storage.all()[key]
+                instance = storage.all()[key]
                 setattr(instance, attribute_name, attribute_value)
                 storage.save()
         except IndexError:
