@@ -156,6 +156,12 @@ class HBNBCommand(cmd.Cmd):
         except IndexError:
             print("** no instance found **")
 
+    def default(self, arg):
+        """Called when the command is not recognized."""
+        if arg.endswith('.all()'):
+            cls_name = arg.split(".")[0]
+            self.do_all(cls_name)
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
