@@ -156,11 +156,27 @@ class HBNBCommand(cmd.Cmd):
         except IndexError:
             print("** no instance found **")
 
+    def do_count(self, arg):
+        """Count the number of instances of a class."""
+        if not arg:
+            print("** class name missing **")
+            return
+
+        if arg not in self.classes:
+            print("** class doesn't exist **")
+            return
+
+        instances_count = len(storage.all().values())
+        print(instances_count)
+
     def default(self, arg):
         """Called when the command is not recognized."""
         if arg.endswith('.all()'):
             cls_name = arg.split(".")[0]
             self.do_all(cls_name)
+        if arg.endswith('.count()'):
+            cls_name = arg.split(".")[0]
+            self.do_count(cls_name)
 
 
 if __name__ == '__main__':
