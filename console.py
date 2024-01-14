@@ -177,6 +177,14 @@ class HBNBCommand(cmd.Cmd):
         if arg.endswith('.count()'):
             cls_name = arg.split(".")[0]
             self.do_count(cls_name)
+        if ".show" in arg:
+            cls_name = arg.split(".")[0]
+            #get the class id
+            start = arg.find("(")
+            end = arg.find(")")
+            cls_id = arg[start + 1 : end]
+            cls_id = cls_id.strip('""')
+            self.do_show(cls_name + " " + cls_id)
 
 
 if __name__ == '__main__':
