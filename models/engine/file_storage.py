@@ -2,6 +2,7 @@
 """Storage Module"""
 import json
 import os
+from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -26,15 +27,22 @@ class FileStorage:
         serialized_objs = {}
         for k, v in self.__objects.items():
             serialized_objs[k] = v.to_dict()
+
         with open(self.__file_path, "w") as f:
             json.dump(serialized_objs, f)
 
     def reload(self):
-        """deserializes the JSON file to __objects"""
+        """
+        Deserializes the JSON file to __objects
+        """
+
         if os.path.exists(self.__file_path):
             with open(self.__file_path, 'r') as f:
                 data = json.load(f)
-                for obj in data.values():
-                    cls_name = obj["__class__"]
-                    del obj[cls_name]
-                    self.new(eval(cls_name)(**obj))
+                for k, v in data.items():
+                    # get the class name and id
+                    cls_name, obj_id = k.split('.')
+                    # create an instance from the json data
+                    cls_instance = globals()[cls_name](**v)
+                    # Add the instance back to __objects
+                    self.new(cls_instance)
