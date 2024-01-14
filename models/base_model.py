@@ -19,11 +19,20 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """
         initiate the class
+        Args:
+            *args: Unused positional arguments
+            **kwargs: Dictionary representation
         """
         if kwargs:
+            if '__class__' in kwargs:
+                del kwargs['__class__']
+            if 'created_at' in kwargs:
+                kwargs['created_at'] = time.strptime(
+                        kwargs['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
+            if 'updated_at' in kwargs:
+                kwargs['updated_at'] = time.strptime(
+                        kwargs['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
             for k, v in kwargs.items():
-                if k in ['created_at', 'updated_at']:
-                    v = time.fromisoformat(v)
                 setattr(self, k, v)
         else:
             self.id = str(uuid4())
@@ -32,7 +41,7 @@ class BaseModel:
             models.storage.new(self)
 
     def __str__(self):
-        """string representation of BaseModel"""
+        """return the string representation of BaseModel"""
         return "[{}] ({}) {}".format(
                 self.__class__.__name__,
                 self.id,
