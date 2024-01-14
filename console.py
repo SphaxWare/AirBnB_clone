@@ -100,6 +100,10 @@ class HBNBCommand(cmd.Cmd):
                 return
 
             key = args[0] + "." + args[1]
+            all_instances = storage.all()
+            if key not in all_instances:
+                print("** no instance found **")
+                return
             del storage.all()[key]
             storage.save()
         except IndexError:
